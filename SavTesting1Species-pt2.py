@@ -468,40 +468,25 @@ newIMF1.append(IMF[-2])
 newIMF1.append(IMF[-3])
 det_sum1=np.sum(newIMF1, axis = 0)
 
-plt.figure(figsize = (14,2))
-plt.plot(Fprom, Iprom, 'r',label='data')
-plt.plot(Fprom,det_sum1,label='detrended data 1',color='blue')
-plt.title('Detrended flux for Methanol 4955.2000 MHz')
-plt.xlabel('Frequency (MHz)')
-plt.ylabel('I_mean (Jy)')
-plt.legend()
 
-   
-'''
-#Detrending manually (subtracting IMFS from the original data; excluded first and last IMF)
+#TRYING DIFFERENT DETRENDING APPROACHES
+
+#Detrending manually (Adding IMFS approach)
+
+#First try
 print(IMF)
 newIMF1=[]
 for i in range (1, len(IMF)-1):
     newIMF1.append(IMF[i])
 det_sum1=np.sum(newIMF1, axis = 0)# sum of all IMFs except first and last one
 
-#Detrending manually (subtracting IMFS from the original data; excluded first and last IMF)
+#Second Try
 newIMF2=[]
 for i in range (1, len(IMF)-2): #subtracting last two IMFS
     newIMF2.append(IMF[i])
-det_sum2=np.sum(newIMF2, axis = 0)# sum of all IMFs except first and last one
+det_sum2=np.sum(newIMF2, axis = 0)#
 
-
-plt.figure(figsize = (14,2))
-#detrendedI=np.subtract(Iprom,det_sum) #subtracting IMFs from raw data
-plt.plot(Fprom,det_sum1,label='detrended data 1',color='blue')
-plt.plot(Fprom,det_sum2, label='detrended data 2', color='green')
-plt.title('Detrended flux for Methanol 4955.2000 MHz')
-plt.xlabel('Frequency (MHz)')
-plt.ylabel('I_mean (Jy)')
-plt.legend()
-
-# Plot results with detrending
+# Plot raw data with detrending
 fig = plt.figure(figsize = (12,20))
 plt.subplot(N,1,1)
 plt.plot(Fprom, Iprom, 'r',label='data')
@@ -509,4 +494,16 @@ plt.title("Methanol 4955.2000 MHz")
 plt.plot(Fprom,det_sum1, label='detrended data 1', color='blue')
 plt.plot(Fprom,det_sum2, label='detrended data 2', color='green')
 plt.legend()
-'''
+
+
+#Detrending by subtracting IMFS from raw data
+I_sub1= np.subtract(Iprom, det_sum1)
+I_sub2= np.subtract(Iprom, det_sum2)
+plt.figure(figsize = (14,2))
+plt.plot(Fprom, Iprom, 'r',label='data')
+plt.plot(Fprom,I_sub1,label='detrended data 1',color='blue')
+plt.plot(Fprom,I_sub2,label='detrended data 1',color='green')
+plt.title('Detrended flux for Methanol 4955.2000 MHz')
+plt.xlabel('Frequency (MHz)')
+plt.ylabel('I_mean (Jy)')
+plt.legend
